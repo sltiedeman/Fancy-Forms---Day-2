@@ -1,0 +1,93 @@
+#nav-bar{
+	max-width: 900px;
+	margin: auto;
+	font-weight: bold;
+	border: none;
+	padding: 0px;
+	font-size: 14px;
+}
+
+/*top level element li*/
+#nav-bar ul{
+	background-color: #093;
+	height: 50px;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	border-radius: 15px;
+	box-shadow: inset 0px 16px 0px 0px rga(255,255,255,.1);
+}
+
+#nav-bar ul li{
+	float:left;
+	padding: 0px 0px 0px 15px;
+}
+
+#nav-bar ul li a{
+	color: black;
+	font-weight: normal;
+	line-height: 50px;
+	padding: 0 25px;
+	margin: 0px;
+	text-decoration: none;
+	text-align: center;
+}
+
+
+/*hovering over a top level element*/
+#nav-bar ul li a:hover{
+	background: #060;
+	color: white;
+	text-decoration: none;
+}
+
+/*child elements of the top level elements*/
+#nav-bar ul li ul{
+	display: none;
+	height: auto;
+	position: absolute;
+	width: 200px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#nav-bar ul li:hover ul{
+	display: block;
+}
+
+#nav-bar ul ul{
+	border-radius: 0;
+
+}
+
+li li {
+	width: 200px;
+	padding: 0;
+	background-color: #093;
+}
+
+#nav-bar ul li:hover ul li a{
+	background: none;
+}
+
+#nav-bar ul li ul a{
+	height: 50px;
+	font-size: 12px;
+	padding: 0px 10px 0px 15px;
+}
+
+#nav-bar ul li a:hover{
+	color: white;
+	border: 0px;
+	background: #060;
+	text-decoration: none;
+	box-shadow: inset 0px 0px 7px 2px rgb(0, 0, 0, .3);
+}
+
+
+
+
+
+
+
+
