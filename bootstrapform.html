@@ -18,28 +18,43 @@
 
 				<div class="section"><span>1</span>First Name & Address</div>
 				<div class="inner-wrap">
-					<label class="control-label">Your Full Name<input class="form-control" type="text" name="fullName"></label>
-					<label class="control-label">Address<textarea class="form-control" name="address"></textarea></label> 
+					<label class="control-label">Your Full Name</label>
+					<input class="form-control" type="text" name="fullName"><span id="name-error"></span>
+					<label class="control-label">Address</label>
+					<textarea class="form-control" name="address"></textarea><span id="address-error"></span>
 				</div>
 			</div>
 
-			<div class="section"><span>2</span>E-mail & Phone</div>
-			<div class="inner-wrap">
-				<label class="control-label">E-mail Address<input class="form-control" type="email" name="email"></label>
-				<label>Phone Number<input type="text" name="phone"></label>
+			<div id="email-phone-wrapper" class="form-group">
+				<div class="section"><span>2</span>E-mail & Phone</div>
+				<div class="inner-wrap">
+					<label class="control-label">E-mail Address</label>
+					<input class="form-control" type="email" name="email">
+					<label class="control-label">Phone Number</label>
+					<input class="form-control" type="text" name="phone" placeholder="555-555-5555"><span id="phone-error"></span><span id="no-letters"></span>
+				</div>
 			</div>
 
-			<div class="section"><span>3</span>Password</div>
-			<div class="inner-wrap">
-				<label>Password<input type="password" name="pword"></label>
-				<label>Confirm Password<input type="password" name="confirmpword"></label>
+			<div id="password-wrapper" class="form-group">
+				<div class="section"><span>3</span>Password</div>
+				<div class="inner-wrap">
+					<label class="control-label">Password</label>
+					<input class="form-control" type="password" name="pword" placeholder="At least 1 uppercase, 1 lowercase, and 1 number"><span id="pword-error"></span>
+					<label class="control-label">Confirm Password</label>
+					<input class="form-control" type="password" name="confirmpword"><span id="pword-error2"></span>
+				</div>
 			</div>
 
-			<div class="button-section">
-				<input type="submit" value="Sign Me Up">
-				<span class="privacy-policy">
-					<input type="checkbox" name="privacy">I agree to the Terms and Policies
-				</span>
+			<div id="button-wrapper" class="button-section">
+				<div class="has-success">
+					<div class="checkbox">
+						<input type="submit" value="Sign Me Up">
+						<label class="privacy-policy">
+						<input type="checkbox" id="checkboxSuccess" name="privacy">I agree to the Terms and Policies
+						<span id="checkbox-error"></span>
+						</label>
+					</div>
+				</div>
 			</div>
 		</form>
 
@@ -57,13 +72,142 @@
 		if(signUpForm.fullName.value.length < 4){
 			signUpForm.fullName.focus();
 			document.getElementById('name-wrapper').className ='form-group has-error';
-			alert("enter your name");
+			document.getElementById('name-error').className = 'help-block';
+			document.getElementById('name-error').innerHTML = "You need at least 4 characters";
 			return false;
 		}
-		if(signUpForm.address.value.length < 4){
+		if(signUpForm.address.value.length < 8){
 			signUpForm.address.focus();
 			document.getElementById('name-wrapper').className ='form-group has-error';
-			alert("enter your address");
+			document.getElementById('address-error').className = 'help-block';
+			document.getElementById('address-error').innerHTML = "You need at least 8 characters";
+			
+
+			return false;
+		}
+
+		var phoneValue = signUpForm.phone.value;
+		var count1 = 0;
+		var countNumbers = 0;
+		for(i=0; i<phoneValue.length; i++){
+			if(phoneValue[i]=='-'){
+				count1++;
+			}
+			if((10 - phoneValue[i])>0){
+				countNumbers++;
+			}
+		}
+		var count2 = 0;
+		if(phoneValue[3]==='-'){
+			count2++;
+		}
+		if(phoneValue[7]==='-'){
+			count2++;
+		}
+
+		var isValid = false;
+		if(((count1==2)&&(count2==2))&&(countNumbers==10)){
+			isValid = true;
+		}
+
+
+		if(countNumbers<10){
+			signUpForm.phone.focus();
+			document.getElementById('email-phone-wrapper').className ='form-group has-error';
+			document.getElementById('phone-error').className = 'help-block';
+			document.getElementById('phone-error').innerHTML = "Must have 10 numbers and no letters";
+			return false;			
+		}
+
+		if((signUpForm.phone.value.length < 12)||(isValid===false)){
+			signUpForm.phone.focus();
+			document.getElementById('email-phone-wrapper').className ='form-group has-error';
+			document.getElementById('phone-error').className = 'help-block';
+			document.getElementById('phone-error').innerHTML = "Enter Phone number as 555-555-5555";
+			return false;
+		}
+
+
+		//Attempt at Password Validation---------------------------------------
+		
+		//Our password rules:
+		//--Must be between 4 and 8 characters
+		//--Must have no spaces
+		//--Must have 1 number
+		//--Must have 1 upper case
+		//--Must have 1 lower case
+
+		var wordIsNoGood=true;
+		var testWord = signUpForm.pword.value;
+
+
+
+		if((testWord.length > 8) || (testWord.length < 4)){
+			wordIsNoGood = false;
+		}
+	
+		var upperCaseFound = 0;
+		var lowerCaseFound = 0;
+
+		for (var i=0; i<testWord.length; i++){
+			var character = testWord[i];
+			var temp = 0;
+			for (k = 0; k < 10; k++){
+				var testCharacter = k.toString();
+				if (character === testCharacter){
+					var numberFound = 1;
+					var temp = 99;
+				}
+			}
+			if (temp !== 99){
+				if (character===character.toUpperCase()){
+					upperCaseFound++;
+				}else if (character === character.toLowerCase()){
+					lowerCaseFound++;
+				}
+			}
+		}
+
+		if(testWord.indexOf(" ") !== -1){
+			wordIsNoGood = false;
+		}
+
+
+		if (numberFound !== 1){
+			wordIsNoGood = false;
+		}
+
+		if (upperCaseFound < 1){
+			wordIsNoGood = false;
+		}
+
+		if (lowerCaseFound < 1){
+			wordIsNoGood = false;
+		}
+
+		if(wordIsNoGood == false){
+			signUpForm.pword.focus();
+			document.getElementById('password-wrapper').className ='form-group has-error';
+			document.getElementById('pword-error').className = 'help-block';
+			document.getElementById('pword-error').innerHTML = "Password is invalid";
+			return false;
+		}
+
+		var testWord2 = signUpForm.confirmpword.value;
+		if(testWord2 != testWord){
+			signUpForm.confirmpword.focus();
+			document.getElementById('password-wrapper').className ='form-group has-error';
+			document.getElementById('pword-error2').className = 'help-block';
+			document.getElementById('pword-error2').innerHTML = "Passwords are not the same";
+			return false;
+		}
+
+		var checkedOrNot = document.signUpForm.privacy.checked;
+		console.log("checked or not " + checkedOrNot);
+		if(checkedOrNot === false){
+			document.getElementById('button-wrapper').className ='button-section has-error';
+			document.getElementById('checkbox-error').className = 'help-block';
+			document.getElementById('checkbox-error').innerHTML = "Must agree to Terms and Policies";
 			return false;
 		}
 
