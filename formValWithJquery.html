@@ -5,28 +5,30 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 	<link rel="stylesheet" href="styles.css">
+
 
 
 </head>
 <body>
 
 	<div class="form-wrapper">
-		<form name="signUpForm" onsubmit="return (validateForm());">
+		<form name="signUpForm" id="sign-up-form">
 			<div id="name-wrapper" class="form-group">	
 				<h1>Sign up now!<span> Sign up and tell us what you think of our site!</span></h1>
-
 				<div class="section"><span>1</span>First Name & Address</div>
 				<div class="inner-wrap">
 					<label class="control-label">Your Full Name</label>
-					<input class="form-control" type="text" name="fullName"><span id="name-error"></span>
+					<input class="form-control" id="name" type="text" name="fullName"><span id="name-error"></span>
 					<label class="control-label">Address</label>
 					<textarea class="form-control" name="address"></textarea><span id="address-error"></span>
 				</div>
 			</div>
 
 			<div id="email-phone-wrapper" class="form-group">
-				<div class="section"><span>2</span>E-mail & Phone</div>
+				<div class="section"><span>2</span>E-mail & <a href="#" data-toggle="tooltip" data-placement="right" title="Enter as 555-555-5555">Phone</a></div>
 				<div class="inner-wrap">
 					<label class="control-label">E-mail Address</label>
 					<input class="form-control" type="email" name="email" placeholder="johndoe@example.com">
@@ -35,8 +37,22 @@
 				</div>
 			</div>
 
+
+			<div id="miscellaneous-wrapper" class="form-group">
+				<div class="section"><span>3</span>Miscellaneous</div>
+				<div class="inner-wrap">
+					<label class="control-label" for="techs">Tech Interests</label>
+					<input class="form-control" id="techs" type="text">
+					<label class="control-label" for="datepicker">Birthday</label>
+					<input class="form-control" id="datepicker" type="text">
+					<label class="control-label" for="spinner">Enter Your Age</label>
+					<input class="form-control" id="spinner" name="value" value="30">
+				</div>
+			</div>
+
+
 			<div id="password-wrapper" class="form-group">
-				<div class="section"><span>3</span>Password</div>
+				<div class="section"><span>4</span>Password</div>
 				<div class="inner-wrap">
 					<label class="control-label">Password</label>
 					<input class="form-control" type="password" name="pword" placeholder="At least 1 uppercase, 1 lowercase, and 1 number"><span id="pword-error"></span>
@@ -44,6 +60,8 @@
 					<input class="form-control" type="password" name="confirmpword"><span id="pword-error2"></span>
 				</div>
 			</div>
+
+
 
 			<div id="button-wrapper" class="button-section">
 				<div class="has-success">
@@ -64,11 +82,75 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 
 
 	 <script type="text/javascript">
 
-	function validateForm(){
+	// function validateForm(){
+		// var lengthOfName = $('#sign-up-form #name-wrapper input').val().length;
+		// if(lengthOfName < 4)
+		
+	$(document).ready(function(){
+    	$('[data-toggle="tooltip"]').tooltip(); 
+	});
+
+	$(function(){
+		var availableTags = [
+			"JavaScript",
+			"HTML5",
+			"jQuery",
+			"CSS",
+			"Linux",
+			"Swift"
+		];
+		$("#techs").autocomplete({
+			source: availableTags
+		});
+
+	});
+
+
+	$(function() {
+    	$( "#datepicker" ).datepicker({
+    		dateFormat: "yymmdd"
+    	});
+
+
+  	});
+
+  	$(function() {
+	    var spinner = $( "#spinner" ).spinner();
+	 
+	    $( "#disable" ).click(function() {
+	      if ( spinner.spinner( "option", "disabled" ) ) {
+	        spinner.spinner( "enable" );
+	      } else {
+	        spinner.spinner( "disable" );
+	      }
+	    });
+	    $( "#destroy" ).click(function() {
+	      if ( spinner.spinner( "instance" ) ) {
+	        spinner.spinner( "destroy" );
+	      } else {
+	        spinner.spinner();
+	      }
+	    });
+	    $( "#getvalue" ).click(function() {
+	      alert( spinner.spinner( "value" ) );
+	    });
+	    $( "#setvalue" ).click(function() {
+	      spinner.spinner( "value", 5 );
+	    });
+	 
+	    $( "button" ).button();
+  	});
+
+
+
+
+	$('#sign-up-form').submit(function(){
 		if(signUpForm.fullName.value.length < 4){
 			signUpForm.fullName.focus();
 			document.getElementById('name-wrapper').className ='form-group has-error';
@@ -211,7 +293,9 @@
 			return false;
 		}
 
-	}
+	});
+
+
 
 
 	</script>
